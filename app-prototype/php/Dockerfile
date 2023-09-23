@@ -40,6 +40,7 @@ RUN docker-php-ext-install \
     pcntl \
     mbstring \
     # tokenizer \
+    sockets \
     bz2 \
     zip \
     intl
