@@ -20,7 +20,10 @@ Auth::routes(['register' => false, 'login' => false]);
 Auth::routes();
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/', [HomeController::class, 'beranda'])->name('beranda');
+
+Route::get('/', function () {
+    return view('beranda');
+});
 
 
 Route::get('/beranda', function () {
