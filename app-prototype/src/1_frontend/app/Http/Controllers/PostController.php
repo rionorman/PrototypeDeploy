@@ -111,7 +111,6 @@ class PostController extends Controller
 			$image_name = time() . '.' . $image_ext;
 			$request->image->move(public_path('images'), $image_name);
 			$image = 'data:@image/' . $image_ext . ';base64,' . base64_encode(file_get_contents(public_path('images/') . $image_name));
-			dd($image);
 
 			$response = Http::post($url_api, [
 				'id' => $request->id,
@@ -121,7 +120,6 @@ class PostController extends Controller
 				'content' => $request->content,
 				'image' => $image
 			]);
-
 
 			$image_path = public_path('images/' . $image_name);
 			if (file_exists($image_path)) {
@@ -136,6 +134,8 @@ class PostController extends Controller
 				'content' => $request->content
 			]);
 		}
+
+		dd($response);
 		return redirect('/post');
 	}
 
