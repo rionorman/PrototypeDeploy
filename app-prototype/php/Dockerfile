@@ -2,6 +2,8 @@ FROM php:8.2-fpm
 
 RUN docker-php-ext-install pdo pdo_mysql
 
+RUN docker-php-ext-install sockets
+
 RUN apt-get update
 
 # Install useful tools
@@ -40,7 +42,6 @@ RUN docker-php-ext-install \
     pcntl \
     mbstring \
     # tokenizer \
-    sockets \
     bz2 \
     zip \
     intl
