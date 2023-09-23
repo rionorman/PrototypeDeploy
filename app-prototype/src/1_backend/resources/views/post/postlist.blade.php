@@ -21,7 +21,7 @@ Data Post 
               <th width="150">Image</th>
               <!-- <th>Created_at</th> -->
               <!-- <th>Updated_at</th> -->
-              <!-- <th width="90"><a href="{{asset('/')}}post/create"> <i class="fas fa-plus"></i></a></th> -->
+              <th width="90"><a href="{{asset('/')}}post/create"> <i class="fas fa-plus"></i></a></th>
             </tr>
           </thead>
           <tbody>
@@ -36,11 +36,11 @@ Data Post 
               <td><img src="{{ env('APP_URL'). '/images/'. $row->image }}" class="img-fluid"></td>
               <!-- <td>{{ $row['created_at'] }}</td> -->
               <!-- <td>{{ $row['updated_at'] }}</td> -->
-              <!-- <td align="center">
+              <td class="text-center">
                 <a href="{{asset('/')}}post/{{ $row->id }}"><i class="fas fa-info-circle"></i></a>
                 <a href="{{asset('/')}}post/{{ $row->id }}/edit"><i class="far fa-edit"></i></a>
                 <a href="{{asset('/')}}post/{{ $row->id }}/delete"><i class="far fa-trash-alt"></i></a>
-              </td> -->
+              </td>
             </tr>
             @endforeach
           </tbody>
