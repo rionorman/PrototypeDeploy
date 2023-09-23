@@ -52,7 +52,7 @@ class PostController extends Controller
 		$post->cat_id = $request->cat_id;
 		$post->title = $request->title;
 		$post->content = $request->content;
-		$post->image = asset('/images') . '/' . $image_name;
+		$post->image = $image_name;
 		$post->save();
 		return redirect('/post');
 	}
@@ -80,14 +80,14 @@ class PostController extends Controller
 		$post->title = $request->title;
 		$post->content = $request->content;
 		if ($request->image != NULL) {
-			$images = explode('/', $post->image, 5);
-			$image_path = public_path('images' . '/' . $images[4]);
+			$image = $post->image;
+			$image_path = public_path('images' . '/' . $image);
 			if (file_exists($image_path)) {
 				unlink($image_path);
 			}
 			$imageName = time() . '.' . $request->image->extension();
 			$request->image->move(public_path('images'), $imageName);
-			$post->image = asset('/images')  . '/' . $imageName;
+			$post->image = $imageName;
 		}
 		// $post->created_at = $request->created_at;
 		// $post->updated_at = $request->updated_at;
@@ -104,8 +104,8 @@ class PostController extends Controller
 	public function destroy($id)
 	{
 		$post = Post::find($id);
-		$images = explode('/', $post->image, 5);
-		$image_path = public_path('images/' . $images[4]);
+		$image = $post->image;
+		$image_path = public_path('images/' . $image);
 		if (file_exists($image_path)) {
 			unlink($image_path);
 		}
