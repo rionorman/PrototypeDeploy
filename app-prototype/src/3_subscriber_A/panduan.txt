@@ -1,0 +1,20 @@
+Clone Laravel
+------------------------
+composer install
+.env.example .env
+php artisan key:generate
+
+Login
+------------------------
+username : adminportalA
+password : 12341234
+
+Database
+------------------------
+username : root@mysql_proto_2
+password : dikosongkan
+database : db_3_subscriber_A
+
+Consume Subscribe Data
+-----------------------
+php artisan mq:consumer-command

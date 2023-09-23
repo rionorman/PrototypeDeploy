@@ -1,0 +1,31 @@
+Clone Laravel
+------------------------
+composer install
+.env.example .env
+php artisan key:generate
+
+Login
+------------------------
+username : adminstreaming
+password : 12341234
+
+Database
+------------------------
+server   : mysql_proto_1
+username : root
+password : dikosongkan
+database : db_6_streaming_A
+
+Install Extension SI
+------------------------------
+1. Masuk ke bash dari container wso2si_proto
+2. <SI_HOME>/bin
+3. ketikan "./extension-installer.sh install"
+4. Are you sure you want to install missing extensions? [y/n] y
+
+Add data user
+------------------------------
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1,	'Admin Streaming',	'adminstreaming',	'adminstreaming@gmail.com',	NULL,	'$2y$10$uk0HfZxZr/ml8hgZ4nlNRu2jUbUDevj/1KWmLEiHhhsziyW1AtCce',	NULL,	'2023-09-19 09:36:44',	'2023-09-19 09:36:44');
+
+

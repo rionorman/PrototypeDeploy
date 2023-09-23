@@ -1,0 +1,16 @@
+Clone Laravel
+------------------------
+composer install
+.env.example .env
+php artisan key:generate
+
+Login
+------------------------
+username : adminfrontend
+password : 12341234
+
+Database
+------------------------
+username : root
+password : password
+database : db_frontend

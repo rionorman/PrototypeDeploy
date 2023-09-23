@@ -1,0 +1,57 @@
+Clone Laravel
+------------------------
+composer install
+.env.example .env
+php artisan key:generate
+
+Login
+------------------------
+username : adminsplp
+password : 12341234
+
+Database
+------------------------
+username : root
+password : password
+database : db_2_asynchronous
+
+RabbitMQ
+------------------------
+URL : http://localhost:15672/#/
+username : user_proto
+password : password_proto
+Exchange
+  Name : broadcastemail
+  Type : direct
+  Key  : key
+Queue
+  Name : BroadcastEmailMessageStoreRMQ
+  Type : classic
+Lakukan binding
+
+Mail trap io
+---------------------------
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=c912b7ecdb91f5
+MAIL_PASSWORD=b26918ce519908
+MAIL_FROM_ADDRESS="no-reply@kominfo.go.id"
+MAIL_FROM_NAME="${APP_NAME}"
+
+
+Contoh Email
+------------------------
+to : client1@gmail.com;client2@gmail.com;client3@gmail.com;client4@gmail.com;client5@gmail.com
+subject : Maintenance Break
+Content :
+Kami ingin memberitahukan kepada seluruh pelanggan bahwa kami akan melakukan maintenance rutin pada layanan kami. Maintenance ini akan berlangsung pada tanggal 5 Agustus 2023, antara pukul 02:00 hingga 06:00 WIB. Selama periode ini, layanan kami mungkin tidak dapat diakses sesaat. Kami mohon maaf atas ketidaknyamanan yang mungkin ditimbulkan, namun tindakan ini diperlukan untuk meningkatkan performa dan kehandalan layanan kami. Terima kasih atas pengertian dan dukungan Anda.
+
+Hormat kami,
+Tim Layanan SPLP KOMINFO
+
+
+
+deploy
+-----------------------
+<EI_HOME>/wso2/micro-integrator/repository/deployment/server/carbonapps/

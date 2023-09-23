@@ -1,0 +1,216 @@
+version: '3.8'
+
+services:
+
+  # Web Server Service
+  nginx_proto:
+    image: nginx
+    container_name: nginx_proto
+    ports:
+      - "8000:80"
+      - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
+      - "8004:8004"
+      - "8005:8005"
+      - "8006:8006"
+      - "8007:8007"
+      - "8008:8008"
+      - "8009:8009"
+      - "8010:8010"
+      - "8011:8011"
+      - "8012:8012"
+      - "8013:8013"
+      - "8014:8014"
+      - "8015:8015"
+      - "8016:8016"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/sites-available/:/etc/nginx/sites-available/
+    depends_on:
+      - app_proto
+      - mysql_proto_1
+      - mysql_proto_2
+    # networks:
+    #   - net_proto
+
+  #Database Service
+  mysql_proto_1:
+    image : mysql:8
+    container_name : mysql_proto_1
+    # command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/data_1:/var/lib/mysql
+    ports:
+      - "3316:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    # networks:
+    #   - net_proto
+
+  mysql_proto_2:
+    image : mysql:8
+    container_name : mysql_proto_2
+    # command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/data_2:/var/lib/mysql
+    ports:
+      - "3326:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    # networks:
+    #   - net_proto
+  
+  mysql_proto_3:
+    image : mysql
+    container_name : mysql_proto_3
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/data_3:/var/lib/mysql
+    ports:
+      - "3336:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    #   MYSQL_PASSWORD: mypassword_3
+    # networks:
+    #   - net_proto
+
+  mysql_proto_4:
+    image : mysql
+    container_name : mysql_proto_4
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/data_4:/var/lib/mysql
+    ports:
+      - "3346:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    #   MYSQL_PASSWORD: mypassword_3
+    # networks:
+    #   - net_proto
+  
+  # postgres:
+  #   image: postgres
+  #   container_name: postgres
+  #   volumes:
+  #     - ./postgresql/data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   environment: 
+  #     POSTGRES_DB: blog
+  #     POSTGRES_USER: root 
+  #     POSTGRES_PASSWORD: password 
+
+  # Application Service
+  app_proto:
+    container_name: app_proto
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www
+    ports:
+      - "9000:9000"
+    working_dir: /var/www
+    # networks:
+    #   - net_proto
+
+  #phpMyAdmin Service
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin_proto1
+  #   ports:
+  #     - "3400:80"
+  #   depends_on:
+  #     - db
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgAdmin
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - mysql_proto_1
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: hanieasemi76@gmail.com
+  #     PGADMIN_DEFAULT_PASSWORD: password
+
+  # Adminer Service
+  adminer_proto:
+    image: adminer
+    container_name: adminer_proto
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql_proto_1
+      - mysql_proto_2
+    # networks:
+    #   - net_proto
+
+  # WSO2 Service
+  wso2am_proto:
+    image: wso2/wso2am:4.0.0
+    container_name: wso2am_proto
+    ports:
+      - "8280:8280"
+      - "8243:8243"
+      - "9443:9443"
+    # networks:
+    #   - net_proto
+  
+  wso2mi_proto:
+    image: wso2/wso2mi:4.0.0-ubuntu
+    container_name: wso2mi_proto
+    ports:
+      - "8290:8290"
+      - "8253:8253"
+      - "5005:5005"
+    volumes:
+      - ./wso2mi/carbonapps:/home/wso2carbon/wso2mi-4.0.0/repository/deployment/server/carbonapps
+    # networks:
+    #   - net_proto
+  
+  wso2si_proto:
+    image: wso2/wso2si:4.0.0-ubuntu
+    container_name: wso2si_proto
+    ports: 
+      - "7070:7070"
+      - "7443:7443"
+      - "7611:7611"
+    volumes:
+      - ./wso2si/siddhi-files:/home/wso2carbon/wso2si-4.0.0/wso2/server/deployment/siddhi-files
+    # networks:
+    #   - net_proto
+  
+  # wso2mi-dashboard:
+  #   image: wso2/wso2mi-dashboard:4.0.0
+  #   container_name: wso2mi-dashboard_proto
+  #   ports:
+  #     - "9743:9743"
+  #   networks:
+  #     - net_proto
+  #   depends_on:
+  #     - wso2mi 
+  
+  # Message Broker Service
+  rabbitmq_proto:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_proto
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user_proto
+      RABBITMQ_DEFAULT_PASS: password_proto
+    # networks:
+    #   - net_proto
+
+# Network Service
+# networks:
+#   net_proto:
+#     driver: "bridge"
+#   host:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.30.0.0/16

@@ -1,0 +1,17 @@
+@App:name('ManageProductionStats')
+@App:description('Receive events via file and publish to Kafka topic')
+
+@source(type = 'file', mode = "LINE", file.uri = "./wso2-si-4.0.0/data/productions.csv", tailing = "true",
+    @map(type = 'csv'))
+define stream SweetProductionStream (name string, amount double);
+
+@sink(type = 'kafka', bootstrap.servers = "localhost:9092", topic = "total_production", is.binary.message = "false", partition.no = "0",
+    @map(type = 'json'))
+define stream TotalProductionStream (name string, amount double);
+
+-- Simple Siddhi query to calculate production totals.
+@info(name = 'query1')
+from SweetProductionStream 
+select name, sum(amount) as amount 
+group by name
+insert into TotalProductionStream;

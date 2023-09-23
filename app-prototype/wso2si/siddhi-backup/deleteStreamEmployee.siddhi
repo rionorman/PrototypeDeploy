@@ -1,0 +1,24 @@
+@App:name('deleteStreamEmployee')
+
+@App:description('Menghapus data Employee')
+
+@source(type = 'cdc', url = 'jdbc:mysql://mysql_proto_3:3306/db_6_streaming_A?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8, username = 'root', password = 'dikosongkan', table.name = 'employees', operation = 'delete',
+    @map(type = 'keyvalue'))
+define stream deleteStreamEmployee (before_id long, before_nama string, before_email string, before_created_at string, before_updated_at string);
+
+@store(type = 'rdbms', jdbc.url = 'jdbc:mysql://mysql_proto_4:3306/db_6_streaming_B?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8', username = 'root', password = 'dikosongkan', jdbc.driver.name = 'com.mysql.jdbc.Driver')
+@PrimaryKey('id')
+define table employees (id int, nama string, email string);
+
+@sink(type='log')
+define stream deleteLogEmployee (before_id long, before_nama string, before_email string, before_created_at string, before_updated_at string);
+
+@info(name = 'query1')
+from deleteStreamEmployee
+select *
+delete employees on employees.id == before_id;
+
+@info(name = 'query2')
+from deleteStreamEmployee
+select *
+insert into deleteLogEmployee;

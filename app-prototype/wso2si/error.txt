@@ -1,0 +1,13 @@
+Column uses MySQL character set 'utf8mb3', which has no mapping to a Java character set
+
+Connection to the database lost. Error while connecting at Source 'cdc'
+
+Caused by: org.apache.kafka.connect.errors.ConnectException: Encountered change event for
+
+Caused by: org.apache.kafka.connect.errors.ConnectException: Encountered change event for
+
+Column uses MySQL character set 'utf8mb3', which has no mapping to a Java character set
+
+Caused by: org.apache.kafka.connect.errors.ConnectException: Encountered change event for table db_6_streaming_a.employees whose schema isn't known to this connector
+
+Error while connecting at Source 'cdc'

@@ -1,0 +1,24 @@
+@App:name('insertStreamEmployee')
+
+@App:description('Menambahkan data Employee')
+
+@source(type = 'cdc', url = 'jdbc:mysql://mysql_proto_3:3306/db_6_streaming_A?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8', username = 'root', password = 'dikosongkan', table.name = 'employees', operation = 'insert',
+    @map(type = 'keyvalue'))
+define stream insertStreamEmployee (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@store(type = 'rdbms', jdbc.url = 'jdbc:mysql://mysql_proto_4:3306/db_6_streaming_B?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8', username = 'root', password = 'dikosongkan', jdbc.driver.name = 'com.mysql.jdbc.Driver')
+@PrimaryKey('id')
+define table employees (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@sink(type='log')
+define stream insertLogEmployee (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@info(name = 'query1')
+from insertStreamEmployee
+select *
+insert into employees;
+
+@info(name = 'query2')
+from insertStreamEmployee
+select *
+insert into insertLogEmployee;

@@ -1,0 +1,24 @@
+@App:name('updateStreamEmployee')
+
+@App:description('Mengedit data Employee')
+
+@source(type = 'cdc', url = 'jdbc:mysql://mysql_proto_3:3306/db_6_streaming_A?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8', username = 'root', password = 'dikosongkan', table.name = 'employees', operation = 'update',
+    @map(type = 'keyvalue'))
+define stream updateStreamEmployee (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@store(type = 'rdbms', jdbc.url = 'jdbc:mysql://mysql_proto_4:3306/db_6_streaming_B?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8', username = 'root', password = 'dikosongkan', jdbc.driver.name = 'com.mysql.jdbc.Driver')
+@PrimaryKey('id')
+define table employees (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@sink(type='log')
+define stream updateLogEmployee (id long, nik string, nama string, alamat string, email string, created_at string, updated_at string);
+
+@info(name = 'query1')
+from updateStreamEmployee
+select *
+update employees on employees.id == id;
+
+@info(name = 'query2')
+from updateStreamEmployee
+select *
+insert into updateLogEmployee;

@@ -1,0 +1,2 @@
+php artisan app:post-consumer-command
+php artisan app:category-consumer-command

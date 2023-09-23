@@ -1,0 +1,16 @@
+Clone Laravel
+------------------------
+composer install
+.env.example .env
+php artisan key:generate
+
+Login
+------------------------
+username : adminportalutama
+password : 12341234
+
+Database
+------------------------
+username : root@mysql_proto_1
+password : password
+database : db_3_publisher
