@@ -148,7 +148,7 @@ class PostController extends Controller
 			]);
 		}
 
-		// dd(json_decode($response, false));
+		dd(json_decode($response, false));
 		return redirect('/post');
 	}
 
