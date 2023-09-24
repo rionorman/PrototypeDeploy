@@ -17,9 +17,9 @@ class PostController extends Controller
 
 	public function index()
 	{
-		$response = Http::get(env('DOC_URL').'/api/indexPostAPI');
-		// $response = Http::get(env('MIN_URL').'/postAPI/indexPostAPI');
+		// $response = Http::get(env('DOC_URL').'/api/indexPostAPI');
 		// $response = Http::get('http://localhost:8290/postAPI/indexPostAPI');
+		$response = Http::get(env('MIN_URL').'/postAPI/indexPostAPI');
 		$response = (json_decode($response, true));
 		if ($response != NULL) {
 			return view('post/postlist', ['rows' => $response['data']]);
@@ -30,9 +30,9 @@ class PostController extends Controller
 
 	public function create()
 	{
-		$response = Http::get(env('DOC_URL').'/api/getCategoriesAPI');
-		// $response = Http::get(env('MIN_URL').'/postAPI/getCategoriesAPI');
+		// $response = Http::get(env('DOC_URL').'/api/getCategoriesAPI');
 		// $response = Http::get('http://localhost:8290/postAPI/getCategoriesAPI');
+		$response = Http::get(env('MIN_URL').'/postAPI/getCategoriesAPI');
 		$response = (json_decode($response, true));
 		$categories = $response['data'];
 		return view('post/postform', ['action' => 'insert', 'categories' => $categories]);
@@ -40,9 +40,10 @@ class PostController extends Controller
 
 	public function store(Request $request)
 	{
-		$url_api = env('DOC_URL').'/api/storePostAPI';
-		// $url_api = env('MIN_URL').'/postAPI/storePostAPI';
-		// $url_api = 'http://localhost:8290/postAPI/storePostAPI';
+		// $url_api = env('DOC_URL').'/api/storePostAPI';
+		// $url_api = 'http://localhost:8002/postAPI/storePostAPILsg';
+		$url_api = env('MIN_URL').'/postAPI/storePostAPI';
+		
 		$this->validate($request, [
 			'image' => 'required|mimes:jpg,png,jpeg',
 		]);
@@ -52,20 +53,7 @@ class PostController extends Controller
 		$request->image->move(public_path('images'), $image_name);
 		$image = 'data:@image/' . $image_ext . ';base64,' . base64_encode(file_get_contents(public_path('images/') . $image_name));
 
-		// dd($image);
-		// $ext = explode(';base64', $image);
-		// $ext = explode('/', $ext[0]);
-		// $ext = $ext[1];
-		
-		// $image = str_replace('data:@image/' . $ext . ';base64,', '',  $request->image);
-		// $image = str_replace(' ', '+', $image);
-		// $image_name = time() . '.' . $ext;
-		
-
-
-		
-
-		$response = Http::post($url_api, [
+		$response = Http::asForm()->post($url_api, [
 			'id' => $request->id,
 			'user_id' => $request->user_id,
 			'cat_id' => $request->cat_id,
@@ -86,9 +74,9 @@ class PostController extends Controller
 
 	public function show($id)
 	{
-		$response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
-		// $response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
+		// $response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
 		// $response = Http::get('http://localhost:8290/postAPI/showPostAPI/' . $id);
+		$response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
 		$response = (json_decode($response, false));
 		$post = $response->data;
 		return view('post/postform', ['row' => $post, 'action' => 'detail']);
@@ -96,15 +84,15 @@ class PostController extends Controller
 
 	public function edit($id)
 	{
-		$response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
-		// $response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
+		// $response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
 		// $response = Http::get('http://localhost:8290/postAPI/showPostAPI/' . $id);
+		$response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
 		$response = (json_decode($response, false));
 		$post = $response->data;
 
-		$response = Http::get(env('DOC_URL').'/api/getCategoriesAPI');
-		// $response = Http::get(env('MIN_URL').'/postAPI/getCategoriesAPI');
+		// $response = Http::get(env('DOC_URL').'/api/getCategoriesAPI');
 		// $response = Http::get('http://localhost:8290/postAPI/getCategoriesAPI');
+		$response = Http::get(env('MIN_URL').'/postAPI/getCategoriesAPI');
 
 		$response = (json_decode($response, true));
 		$rows = $response['data'];
@@ -114,9 +102,9 @@ class PostController extends Controller
 
 	public function update(Request $request)
 	{
-		$url_api = env('DOC_URL').'/api/updatePostAPI';
-		// $url_api = env('MIN_URL').'/postAPI/updatePostAPI';
+		// $url_api = env('DOC_URL').'/api/updatePostAPI';
 		// $url_api = 'http://localhost:8290/postAPI/updatePostAPI';
+		$url_api = env('MIN_URL').'/postAPI/updatePostAPI';
 
 		if ($request->image != NULL) {
 
@@ -154,9 +142,9 @@ class PostController extends Controller
 
 	public function delete($id)
 	{
-		$response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
-		// $response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
+		// $response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
 		// $response = Http::get('http://localhost:8290/postAPI/showPostAPI/' . $id);
+		$response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
 		$response = (json_decode($response, false));
 		$post = $response->data;
 		return view('post/postform', ['row' => $post, 'action' => 'delete']);
@@ -164,9 +152,9 @@ class PostController extends Controller
 
 	public function destroy($id)
 	{
-		Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
-		// Http::post(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
+		// Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
 		// Http::post('http://localhost:8290/postAPI/destroyPostAPI/' . $id);
+		Http::post(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
 		return redirect('/post');
 	}
 }

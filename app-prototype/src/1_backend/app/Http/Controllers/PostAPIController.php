@@ -117,7 +117,7 @@ class PostAPIController extends Controller
 		$post->cat_id = $request->cat_id;
 		$post->title = $request->title;
 		$post->content = $request->content;
-		$post->image =  asset('/images/' . $image_name);
+		$post->image =  $image_name;
 		$post->save();
 		return response()->json([
 			'success' => true,
