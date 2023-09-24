@@ -25,13 +25,13 @@ Route::get('/welcome', function () {
 
 Auth::routes(['register' => false, 'login' => true]);
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
     Route::resource('category', CategoryController::class);
     Route::get('/category/{idcategory}/delete', [CategoryController::class, 'delete']);
 
     Route::resource('post', PostController::class);
     Route::get('/post/{idpost}/delete', [PostController::class, 'delete']);
-});
+// });
 
 Route::get('/', [FrontendController::class, 'beranda']);
 Route::get('/home', [FrontendController::class, 'beranda']);
