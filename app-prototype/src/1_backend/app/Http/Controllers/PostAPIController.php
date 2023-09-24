@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Resources\PostResource;
@@ -28,7 +30,8 @@ class PostAPIController extends Controller
 		$image = str_replace(' ', '+', $image);
 		$image_name = time() . '.' . $ext;
 
-		File::put(public_path('images') . '/' . $image_name, base64_decode($image));
+		// File::put(public_path('images') . '/' . $image_name, base64_decode($image));
+		file_put_contents(public_path('images') . '/' . $image_name, base64_decode($image));
 
 		$post = new Post;
 		$post->user_id = 3;
@@ -74,7 +77,8 @@ class PostAPIController extends Controller
 			$image = str_replace('data:@image/' . $ext . ';base64,', '',  $request->image);
 			$image = str_replace(' ', '+', $image);
 			$image_name = time() . '.' . $ext;
-			File::put(public_path('images') . '/' . $image_name, base64_decode($image));
+			// File::put(public_path('images') . '/' . $image_name, base64_decode($image));
+			file_put_contents(public_path('images') . '/' . $image_name, base64_decode($image));
 
 			// set image field
 			$post->image =  $image_name;
@@ -98,11 +102,9 @@ class PostAPIController extends Controller
 		}
 		$post->delete();
 		return response()->json([
-			'success' => 1
+			'success' => true
 		]);
 	}
-
-
 
 	public function storePostAPILsg(Request $request)
 	{
