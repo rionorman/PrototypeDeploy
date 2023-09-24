@@ -18,7 +18,7 @@ Data Post 
               <th width="120">Category</th>
               <th width="240">Title</th>
               <th>Content</th>
-              <th width="150">Images</th>
+              <th width="150">Image</th>
               <!-- <th>Created_at</th> -->
               <!-- <th>Updated_at</th> -->
               <!-- <th width="90"><a href="{{asset('/')}}post/create"> <i class="fas fa-plus"></i></a></th> -->
