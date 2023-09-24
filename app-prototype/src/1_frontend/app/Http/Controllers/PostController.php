@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\Category;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-
-use App\Http\Controllers\RabbitMQController;
-use Illuminate\Database\Eloquent\Collection;
 
 class PostController extends Controller
 {
@@ -33,19 +26,23 @@ class PostController extends Controller
 		// $response = Http::get(env('DOC_URL').'/api/getCategoriesAPI');
 		// $response = Http::get('http://localhost:8290/postAPI/getCategoriesAPI');
 		$response = Http::get(env('MIN_URL').'/postAPI/getCategoriesAPI');
+		
 		$response = (json_decode($response, true));
 		$categories = $response['data'];
+
 		return view('post/postform', ['action' => 'insert', 'categories' => $categories]);
 	}
 
 	public function store(Request $request)
 	{
 		// $url_api = env('DOC_URL').'/api/storePostAPI';
-		// $url_api = 'http://localhost:8002/postAPI/storePostAPILsg';
+		// $url_api = 'http://nginx_proto:8002/api/storePostAPILsg';
 		$url_api = env('MIN_URL').'/postAPI/storePostAPI';
 		
 		$this->validate($request, [
-			'image' => 'required|mimes:jpg,png,jpeg',
+			'title' => 'required',
+			'content' => 'required',
+			'image' => 'required|mimes:jpg',
 		]);
 
 		$image_ext = $request->image->extension();
@@ -53,7 +50,13 @@ class PostController extends Controller
 		$request->image->move(public_path('images'), $image_name);
 		$image = 'data:@image/' . $image_ext . ';base64,' . base64_encode(file_get_contents(public_path('images/') . $image_name));
 
-		$response = Http::asForm()->post($url_api, [
+		$response = Http::asForm()->withHeaders([
+			'Authorization' => 'token',
+			'Content-Type' =>  'multipart/form-data; boundary='.strval(rand()),
+			'Accept' => '*/*',
+			'Connection' => 'keep-alive',
+			'Accept-Encoding' => 'gzip, deflate, br'
+			])->post($url_api, [
 			'id' => $request->id,
 			'user_id' => $request->user_id,
 			'cat_id' => $request->cat_id,
@@ -63,6 +66,7 @@ class PostController extends Controller
 		]);
 
 		$response = (json_decode($response, true));
+		
 		if ($response['success']) {
 			$image_path = public_path('images/' . $image_name);
 			if (file_exists($image_path)) {
@@ -79,6 +83,7 @@ class PostController extends Controller
 		$response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
 		$response = (json_decode($response, false));
 		$post = $response->data;
+		
 		return view('post/postform', ['row' => $post, 'action' => 'detail']);
 	}
 
@@ -105,6 +110,11 @@ class PostController extends Controller
 		// $url_api = env('DOC_URL').'/api/updatePostAPI';
 		// $url_api = 'http://localhost:8290/postAPI/updatePostAPI';
 		$url_api = env('MIN_URL').'/postAPI/updatePostAPI';
+
+		$this->validate($request, [
+			'title' => 'required',
+			'content' => 'required'
+		]);
 
 		if ($request->image != NULL) {
 
@@ -135,6 +145,7 @@ class PostController extends Controller
 				'content' => $request->content
 			]);
 		}
+
 		return redirect('/post');
 	}
 
@@ -143,8 +154,10 @@ class PostController extends Controller
 		// $response = Http::get(env('DOC_URL').'/api/showPostAPI/' . $id);
 		// $response = Http::get('http://localhost:8290/postAPI/showPostAPI/' . $id);
 		$response = Http::get(env('MIN_URL').'/postAPI/showPostAPI/' . $id);
+
 		$response = (json_decode($response, false));
 		$post = $response->data;
+
 		return view('post/postform', ['row' => $post, 'action' => 'delete']);
 	}
 
@@ -153,6 +166,7 @@ class PostController extends Controller
 		// Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
 		// Http::post('http://localhost:8290/postAPI/destroyPostAPI/' . $id);
 		Http::get(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
+
 		return redirect('/post');
 	}
 }

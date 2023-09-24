@@ -108,20 +108,20 @@ class PostAPIController extends Controller
 
 	public function storePostAPILsg(Request $request)
 	{
-		$image_ext = $request->image->extension();
-		$image_name = time() . '.' . $image_ext;
-		$request->image->move(public_path('images'), $image_name);
+		// $image_ext = $request->image->extension();
+		// $image_name = time() . '.' . $image_ext;
+		// $request->image->move(public_path('images'), $image_name);
 
-		$post = new Post;
-		$post->user_id = 3;
-		$post->cat_id = $request->cat_id;
-		$post->title = $request->title;
-		$post->content = $request->content;
-		$post->image =  $image_name;
-		$post->save();
+		// $post = new Post;
+		// $post->user_id = 3;
+		// $post->cat_id = $request->cat_id;
+		// $post->title = $request->title;
+		// $post->content = $request->content;
+		// $post->image =  $image_name;
+		// $post->save();
 		return response()->json([
 			'success' => true,
-			'data' => $post
+			'data' => $request->image
 		]);
 	}
 }
