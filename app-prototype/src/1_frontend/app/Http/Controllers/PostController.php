@@ -151,10 +151,9 @@ class PostController extends Controller
 
 	public function destroy($id)
 	{
-		// $response = Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
-		$response = Http::post(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
-		// $response = Http::post('http://localhost:8290/postAPI/destroyPostAPI/' . $id);
-		// $response = (json_decode($response, false));
+		// Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
+		Http::post(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
+		// Http::post('http://localhost:8290/postAPI/destroyPostAPI/' . $id);
 		return redirect('/post');
 	}
 }
