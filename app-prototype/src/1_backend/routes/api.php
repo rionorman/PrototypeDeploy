@@ -28,7 +28,7 @@ Route::post('/storePostAPI', [PostAPIController::class, 'storePostAPI']);
 Route::get('/showPostAPI/{id}', [PostAPIController::class, 'showPostAPI']);
 Route::get('/searchPostAPI/{search}', [PostAPIController::class, 'searchPostAPI']);
 Route::post('/updatePostAPI', [PostAPIController::class, 'updatePostAPI']);
-Route::post('/destroyPostAPI/{id}', [PostAPIController::class, 'destroyPostAPI']);
+Route::get('/destroyPostAPI/{id}', [PostAPIController::class, 'destroyPostAPI']);
 
 Route::get('/getCategoriesAPI', [CategoryAPIController::class, 'getCategories']);
 

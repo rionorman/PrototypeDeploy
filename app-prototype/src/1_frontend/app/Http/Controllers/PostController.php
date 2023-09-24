@@ -113,7 +113,7 @@ class PostController extends Controller
 			$request->image->move(public_path('images'), $image_name);
 			$image = 'data:@image/' . $image_ext . ';base64,' . base64_encode(file_get_contents(public_path('images/') . $image_name));
 
-			$response = Http::post($url_api, [
+			$response = Http::asForm()->post($url_api, [
 				'id' => $request->id,
 				'user_id' => $request->user_id,
 				'cat_id' => $request->cat_id,
@@ -154,7 +154,7 @@ class PostController extends Controller
 	{
 		// Http::post(env('DOC_URL').'/api/destroyPostAPI/' . $id);
 		// Http::post('http://localhost:8290/postAPI/destroyPostAPI/' . $id);
-		Http::post(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
+		Http::get(env('MIN_URL').'/postAPI/destroyPostAPI/' . $id);
 		return redirect('/post');
 	}
 }
