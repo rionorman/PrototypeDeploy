@@ -38,8 +38,7 @@ class PostAPIController extends Controller
 		$post->image = $image_name;
 		$post->save();
 		return response()->json([
-			'success' => true,
-			'data' => $post
+			'success' => true
 		]);
 	}
 
