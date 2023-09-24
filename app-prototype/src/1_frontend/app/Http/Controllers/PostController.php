@@ -135,8 +135,6 @@ class PostController extends Controller
 				'content' => $request->content
 			]);
 		}
-
-		dd(json_decode($response, false));
 		return redirect('/post');
 	}
 
