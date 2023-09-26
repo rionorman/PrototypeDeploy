@@ -32,8 +32,8 @@ services:
       - app_proto
       - mysql_proto_1
       - mysql_proto_2
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
   #Database Service
   mysql_proto_1:
@@ -46,8 +46,8 @@ services:
       - "3316:3306"
     environment:
       MYSQL_ROOT_PASSWORD: dikosongkan
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
   mysql_proto_2:
     image : mysql
@@ -59,8 +59,8 @@ services:
       - "3326:3306"
     environment:
       MYSQL_ROOT_PASSWORD: dikosongkan
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
   
   mysql_proto_3:
     image : mysql
@@ -72,9 +72,8 @@ services:
       - "3336:3306"
     environment:
       MYSQL_ROOT_PASSWORD: dikosongkan
-    #   MYSQL_PASSWORD: mypassword_3
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
   mysql_proto_4:
     image : mysql
@@ -86,9 +85,8 @@ services:
       - "3346:3306"
     environment:
       MYSQL_ROOT_PASSWORD: dikosongkan
-    #   MYSQL_PASSWORD: mypassword_3
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
   
   # postgres:
   #   image: postgres
@@ -113,8 +111,8 @@ services:
     ports:
       - "9000:9000"
     working_dir: /var/www
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
   #phpMyAdmin Service
   # phpmyadmin:
@@ -144,8 +142,8 @@ services:
     depends_on:
       - mysql_proto_1
       - mysql_proto_2
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
   # WSO2 Service
   wso2am_proto:
@@ -155,8 +153,8 @@ services:
       - "8280:8280"
       - "8243:8243"
       - "9443:9443"
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
   
   wso2mi_proto:
     image: wso2/wso2mi:4.0.0-ubuntu
@@ -167,8 +165,8 @@ services:
       - "5005:5005"
     volumes:
       - ./wso2mi/carbonapps:/home/wso2carbon/wso2mi-4.0.0/repository/deployment/server/carbonapps
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
   
   wso2si_proto:
     image: wso2/wso2si:4.0.0-ubuntu
@@ -179,8 +177,8 @@ services:
       - "7611:7611"
     volumes:
       - ./wso2si/siddhi-files:/home/wso2carbon/wso2si-4.0.0/wso2/server/deployment/siddhi-files
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
   
   # wso2mi-dashboard:
   #   image: wso2/wso2mi-dashboard:4.0.0
@@ -202,13 +200,13 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user_proto
       RABBITMQ_DEFAULT_PASS: password_proto
-    # networks:
-    #   - net_proto
+    networks:
+      - net_proto
 
 # Network Service
-# networks:
-#   net_proto:
-#     driver: "bridge"
+networks:
+  net_proto:
+    driver: "bridge"
 #   host:
 #     ipam:
 #       driver: default
